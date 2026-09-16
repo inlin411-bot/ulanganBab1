@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Soal Ulangan Harian BAB 1</title>
+    <style>
+        :root {
+            --primary: #2563eb;
+            --primary-hover: #1d4ed8;
+            --bg: #f8fafc;
+            --card: #ffffff;
+            --text: #1e293b;
+            --border: #e2e8f0;
+            --correct: #22c55e;
+            --wrong: #ef4444;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+        }
+
+        .container {
+            max-width: 800px;
+            width: 100%;
+            background: var(--card);
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            text-align: center;
+            color: var(--primary);
+            margin-bottom: 25px;
+        }
+
+        .identity-box {
+            background-color: #eff6ff;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 30px;
+            border: 1px solid #bfdbfe;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group:last-child {
+            margin-bottom: 0;
+        }
+
+        label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        input[type="text"] {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            box-sizing: border-box;
+            font-size: 14px;
+        }
+
+        .stimulus {
+            background-color: #f1f5f9;
+            padding: 15px;
+            border-left: 4px solid var(--primary);
+            border-radius: 4px;
+            margin-bottom: 20px;
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+
+        .question-card {
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 25px;
+        }
+
+        .question-title {
+            font-weight: 600;
+            margin-bottom: 12px;
+            line-height: 1.5;
+        }
+
+        .options {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .option-label {
+            display: flex;
+            align-items: flex-start;
+            padding: 10px 12px;
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+
+        .option-label:hover {
+            background-color: #f8fafc;
+        }
+
+        .option-label input {
+            margin-right: 10px;
+            margin-top: 3px;
+        }
+
+        button.btn-submit {
+            width: 100%;
+            background-color: var(--primary);
+            color: white;
+            padding: 14px;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+
+        button.btn-submit:hover {
+            background-color: var(--primary-hover);
+        }
+
+        .result-box {
+            display: none;
+            background-color: #f0fdf4;
+            border: 1px solid #bbf7d0;
+            padding: 20px;
+            border-radius: 8px;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .result-score {
+            font-size: 32px;
+            font-weight: bold;
+            color: var(--correct);
+            margin: 10px 0;
+        }
+
+        .feedback {
+            margin-top: 10px;
+            padding: 10px;
+            border-radius: 6px;
+            font-size: 0.9rem;
+            display: none;
+        }
+
+        .feedback.correct {
+            background-color: #dcfce7;
+            color: #166534;
+            border: 1px solid #86efac;
+        }
+
+        .feedback.wrong {
+            background-color: #fee2e2;
+            color: #991b1b;
+            border: 1px solid #fca5a5;
+        }
+
+        img.infographic {
+            max-width: 100%;
+            height: auto;
+            border-radius: 8px;
+            margin-bottom: 15px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>Ulangan Harian BAB 1</h1>
+
+    <!-- Form Identitas Siswa -->
+    <div class="identity-box">
+        <div class="form-group">
+            <label for="nama">Nama Lengkap Siswa:</label>
+            <input type="text" id="nama" placeholder="Masukkan nama Anda..." required>
+        </div>
+        <div class="form-group">
+            <label for="kelas">Kelas:</label>
+            <input type="text" id="kelas" placeholder="Masukkan kelas Anda..." required>
+        </div>
+    </div>
+
+    <!-- Hasil Skor -->
+    <div id="resultBox" class="result-box">
+        <h2>Hasil Ulangan</h2>
+        <p id="studentIdentity"></p>
+        <div class="result-score" id="scoreValue">0 / 100</div>
+        <p>Lihat pembahasan di bawah untuk mengevaluasi jawaban Anda.</p>
+    </div>
+
+    <form id="quizForm">
+        
+        <!-- Stimulus 1 -->
+        <div class="stimulus">
+            <strong>Bacalah kutipan biografi berikut ini!</strong><br>
+            Kartu pos bertitimangsa 8 Maret 1944 itu, yang dimuat dalam kumpulan puisi <i>Aku Ini Binatang Jalang</i>, dikirimkan Chairil Anwar dalam perjalanannya di Jawa Timur kepada Hans Bague Jassin. Si penyair bohemian itu memang berkawan baik dengan mantan amtenar kelahiran Gorontalo tersebut.<br>
+            Curahan hati Chairil Anwar dalam kartu pos kemudian disimpan dengan rapi bersama dokumentasi para sastrawan lain oleh Jassin. Koleksi dokumentasi kesusastraan Jassin dari tahun ke tahun semakin banyak, sampai akhirnya dihimpun dalam lembaga bernama Yayasan Dokumentasi Sastra H.B. Jassin yang diresmikan pada tahun 1977.<br>
+            “Dokumentasi adalah alat untuk memperpanjang ingatan, memperdalam, dan memperluasnya,” kata Jassin dalam acara peresmian lembaga tersebut, seperti dikutip Pamusuk Eneste dalam pengantar di buku yang ditulis Jassin, <i>Surat-Surat 1943–1983</i> (1984: xvii).
+        </div>
+
+        <!-- Soal 1 -->
+        <div class="question-card" id="q1">
+            <div class="question-title">1. Berdasarkan teks, manakah informasi penting yang benar?</div>
+            <div class="options">
+                <label class="option-label"><input type="radio" name="q1" value="A"> A. Kartu pos Chairil Anwar bertitimangsa 8 Maret 1945.</label>
+                <label class="option-label"><input type="radio" name="q1" value="B"> B. Yayasan Dokumentasi Sastra H.B. Jassin diresmikan tahun 1977.</label>
+                <label class="option-label"><input type="radio" name="q1" value="C"> C. Pamusuk Eneste menulis buku berjudul Surat-Surat 1953–1983.</label>
+                <label class="option-label"><input type="radio" name="q1" value="D"> D. H.B. Jassin disebut sebagai penyair yang bohemian.</label>
+                <label class="option-label"><input type="radio" name="q1" value="E"> E. Kartu pos Chairil Anwar dikirim saat perjalanan ke Jawa Tengah.</label>
+            </div>
+            <div class="feedback" id="fb1"></div>
+        </div>
+
+        <!-- Soal 2 -->
+        <div class="question-card" id="q2">
+            <div class="question-title">2. Makna kata bohemian dalam teks yang disematkan kepada Chairil Anwar adalah ….</div>
+            <div class="options">
+                <label class="option-label"><input type="radio" name="q2" value="A"> A. hidup bebas dan nyentrik</label>
+                <label class="option-label"><input type="radio" name="q2" value="B"> B. orang yang kaya raya</label>
+                <label class="option-label"><input type="radio" name="q2" value="C"> C. hidup disiplin dan kaku</label>
+                <label class="option-label"><input type="radio" name="q2" value="D"> D. orang yang suka menulis</label>
+                <label class="option-label"><input type="radio" name="q2" value="E"> E. pekerja keras dan Tangguh</label>
+            </div>
+            <div class="feedback" id="fb2"></div>
+        </div>
+
+        <!-- Soal 3 (Kompleks) -->
+        <div class="question-card" id="q3">
+            <div class="question-title">3. Berdasarkan teks, mengapa H.B. Jassin senang mengoleksi dan mendokumentasikan karya sastra? <br><i>(Klik pada setiap pilihan jawaban benar! Jawaban benar lebih dari satu)</i></div>
+            <div class="options">
+                <label class="option-label"><input type="checkbox" name="q3" value="A"> A. Memperpanjang ingatan manusia terhadap karya sastra.</label>
+                <label class="option-label"><input type="checkbox" name="q3" value="B"> B. Memperdalam pemahaman terhadap karya sastra.</label>
+                <label class="option-label"><input type="checkbox" name="q3" value="C"> C. Meningkatkan popularitas dirinya sebagai seorang penulis.</label>
+                <label class="option-label"><input type="checkbox" name="q3" value="D"> D. Mewariskan karya sastra kepada generasi berikutnya.</label>
+                <label class="option-label"><input type="checkbox" name="q3" value="E"> E. Memperoleh penghargaan sebagai dokumenter ternama.</label>
+            </div>
+            <div class="feedback" id="fb3"></div>
+        </div>
+
+        <!-- Soal 4 -->
+        <div class="question-card" id="q4">
+            <div class="question-title">4. Perhatikan kalimat berikut ini!<br><i>Hari ini semua siswa belajar secara “daring”.</i><br>Penggunaan tanda petik ganda dalam kalimat tersebut sudah tepat, karena mengapit ….</div>
+            <div class="options">
+                <label class="option-label"><input type="radio" name="q4" value="A"> A. istilah ilmiah yang kurang dikenal</label>
+                <label class="option-label"><input type="radio" name="q4" value="B"> B. judul sajak, lagu, atau film</label>
+                <label class="option-label"><input type="radio" name="q4" value="C"> C. petikan yang berasal dari naskah</label>
+                <label class="option-label"><input type="radio" name="q4" value="D"> D. makna, atau penjelasan ungkapan</label>
+                <label class="option-label"><input type="radio" name="q4" value="E"> E. petikan dalam petikan lain</label>
+            </div>
+            <div class="feedback" id="fb4"></div>
+        </div>
+
+        <!-- Soal 5 (Kompleks) -->
+        <div class="question-card" id="q5">
+            <div class="question-title">5. Manakah kalimat yang menggunakan tanda petik tunggal dan ganda yang tepat? <br><i>(Klik pada setiap jawaban benar! Jawaban benar lebih dari satu)</i></div>
+            <div class="options">
+                <label class="option-label"><input type="checkbox" name="q5" value="A"> A. Ani bertanya, “apa kau dengar Dita makan sesuatu sampai bunyi “kriuk-kriuk” seperti itu?”</label>
+                <label class="option-label"><input type="checkbox" name="q5" value="B"> B. Bu Sri menerangkan tentang aorta ‘pembuluh nadi yang besar’.</label>
+                <label class="option-label"><input type="checkbox" name="q5" value="C"> C. “Belajarlah dengan giat, Nak!” ucap Ibu.</label>
+                <label class="option-label"><input type="checkbox" name="q5" value="D"> D. Menurut Pasal 29 ayat 1 UUD 1945, ‘Negara berdasar atas Ketuhanan Yang Maha Esa’.</label>
+                <label class="option-label"><input type="checkbox" name="q5" value="E"> E. Film “Laskar Pelangi” merupakan film yang diangkat dari novel yang ditulis oleh Andrea Hirata.</label>
+            </div>
+            <div class="feedback" id="fb5"></div>
+        </div>
+
+        <!-- Stimulus 2 -->
+        <div class="stimulus">
+            Pagi ini Mardanu berada di becak langganannya yang sedang meluncur ke kantor pos. Dia mau ambil uang pensiun. Kosim si abang becak sudah ubanan, pipinya mulai lekuk ke dalam. Selama mengayuh becak napasnya terdengar megap-megap. Namun seperti biasa dia mengajak Mardanu bercakap-cakap.<br>
+            “Pak Mardanu mah senang ya, tiap bulan tinggal ambil uang banyak di kantor pos,” kata Si Kosim di antara tarikan napasnya yang berat. Ini juga pujian yang terasa membawa beban. Dia jadi ingat selama hidup belum pernah melakukan apa-apa; selama jadi tentara belum pernah terlibat perang, bahkan belum juga pernah bekerja sekeras tukang becak di belakangnya. Sementara Kosim pernah bilang, dirinya sudah beruntung bila sehari mendapat lima belas ribu rupiah. Beruntung, karena dia sering mengalami dalam sehari tidak mendapatkan serupiah pun.
+        </div>
+
+        <!-- Soal 6 -->
+        <div class="question-card" id="q6">
+            <div class="question-title">6. Bagaimana karakter Mardanu yang digambarkan dalam cerita?</div>
+            <div class="options">
+                <label class="option-label"><input type="radio" name="q6" value="A"> A. Orang yang suka membandingkan nasib diri sendiri.</label>
+                <label class="option-label"><input type="radio" name="q6" value="B"> B. Tokoh yang kerap merasa bangga atas pencapaiannya.</label>
+                <label class="option-label"><input type="radio" name="q6" value="C"> C. Sosok yang selalu memikirkan kesulitan hidup orang.</label>
+                <label class="option-label"><input type="radio" name="q6" value="D"> D. Pribadi yang rendah hati dan suka merefleksikan diri.</label>
+                <label class="option-label"><input type="radio" name="q6" value="E"> E. Seseorang yang kurang bersyukur terhadap rezeki harian.</label>
+            </div>
+            <div class="feedback" id="fb6"></div>
+        </div>
+
+        <!-- Soal 7 -->
+        <div class="question-card" id="q7">
+            <div class="question-title">7. Latar sosial yang tergambar dalam cerita adalah ….</div>
+            <div class="options">
+                <label class="option-label"><input type="radio" name="q7" value="A"> A. kehidupan pensiunan lebih makmur dibandingkan tukang becak</label>
+                <label class="option-label"><input type="radio" name="q7" value="B"> B. tukang becak yang hidup sederhana namun selalu bersyukur</label>
+                <label class="option-label"><input type="radio" name="q7" value="C"> C. kisah tentara yang pernah terlibat dalam peperangan</label>
+                <label class="option-label"><input type="radio" name="q7" value="D"> D. suasana di kantor pos yang penuh dengan para pensiunan</label>
+                <label class="option-label"><input type="radio" name="q7" value="E"> E. Mardanu dan Kosim sama-sama orang desa yang bertetangga</label>
+            </div>
+            <div class="feedback" id="fb7"></div>
+        </div>
+
+        <!-- Soal 8 (Kompleks) -->
+        <div class="question-card" id="q8">
+            <div class="question-title">8. Mengapa Mardanu merasa tidak enak hati ketika dipuji oleh Kosim? <br><i>(Klik pada setiap jawaban benar! Jawaban benar lebih dari satu)</i></div>
+            <div class="options">
+                <label class="option-label"><input type="checkbox" name="q8" value="A"> A. Merasa belum pernah berbuat banyak dalam hidupnya.</label>
+                <label class="option-label"><input type="checkbox" name="q8" value="B"> B. Saat menjadi tentara ia tidak pernah ikut berperang.</label>
+                <label class="option-label"><input type="checkbox" name="q8" value="C"> C. Merasa pekerjaannya lebih keras daripada Kosim.</label>
+                <label class="option-label"><input type="checkbox" name="q8" value="D"> D. Menerima pensiun tanpa jerih payah yang besar.</label>
+                <label class="option-label"><input type="checkbox" name="q8" value="E"> E. Sering dibandingkan dengan tukang becak lain.</label>
+            </div>
+            <div class="feedback" id="fb8"></div>
+        </div>
+
+        <!-- Stimulus 3 (Infografik) -->
+        <div class="stimulus">
+            <strong>Infografik Sastrawan: Sapardi Djoko Damono</strong><br>
+            <i>(Gunakan teks informasi pendukung berdasarkan dokumen)</i>
+        </div>
+
+        <!-- Soal 9 (Kompleks) -->
+        <div class="question-card" id="q9">
+            <div class="question-title">9. Perhatikan infografik tentang Sapardi Djoko Damono tersebut! Berdasarkan informasi yang disajikan, manakah pernyataan berikut yang valid? <br><i>(Klik pada setiap jawaban benar! Jawaban benar lebih dari satu)</i></div>
+            <div class="options">
+                <label class="option-label"><input type="checkbox" name="q9" value="A"> A. Sapardi Djoko Damono lahir pada 20 Maret 1940 di Surakarta.</label>
+                <label class="option-label"><input type="checkbox" name="q9" value="B"> B. Beliau wafat pada 19 Juli 2020 di RS Eka BSD, Tangerang.</label>
+                <label class="option-label"><input type="checkbox" name="q9" value="C"> C. Salah satu karyanya adalah kumpulan puisi Hujan Bulan Juni (1989).</label>
+                <label class="option-label"><input type="checkbox" name="q9" value="D"> D. Pernah menjabat sebagai Ketua Dewan Kesenian Jakarta pada periode 1990–1993.</label>
+                <label class="option-label"><input type="checkbox" name="q9" value="E"> E. Tidak pernah menerima penghargaan sastra di Indonesia.</label>
+            </div>
+            <div class="feedback" id="fb9"></div>
+        </div>
+
+        <!-- Soal 10 -->
+        <div class="question-card" id="q10">
+            <div class="question-title">10. Mengapa infografik tentang Sapardi Djoko Damono ini menarik untuk dibaca?</div>
+            <div class="options">
+                <label class="option-label"><input type="radio" name="q10" value="A"> A. Menyajikan informasi dengan tampilan visual yang berwarna dan ilustratif.</label>
+                <label class="option-label"><input type="radio" name="q10" value="B"> B. Berisi biodata, karier, karya, dan penghargaan secara ringkas namun jelas.</label>
+                <label class="option-label"><input type="radio" name="q10" value="C"> C. Memuat puisi-puisi Sapardi Djoko Damono secara lengkap dan rinci.</label>
+                <label class="option-label"><input type="radio" name="q10" value="D"> D. Terdapat kutipan inspiratif yang membuat pembaca lebih terkesan.</label>
+                <label class="option-label"><input type="radio" name="q10" value="E"> E. Menyajikan informasi dengan bahasa ilmiah sehingga mudah dipahami.</label>
+            </div>
+            <div class="feedback" id="fb10"></div>
+        </div>
+
+        <button type="button" class="btn-submit" onclick="submitQuiz()">Kirim Jawaban</button>
+    </form>
+</div>
+
+<script>
+    const answerKey = {
+        q1: ["B"],
+        q2: ["A"],
+        q3: ["A", "B", "D"],
+        q4: ["A"],
+        q5: ["B", "C"],
+        q6: ["D"],
+        q7: ["A"],
+        q8: ["A", "B", "D"],
+        q9: ["A", "B", "C", "D"],
+        q10: ["A"]
+    };
+
+    function submitQuiz() {
+        const nama = document.getElementById('nama').value.trim();
+        const kelas = document.getElementById('kelas').value.trim();
+
+        if (!nama || !kelas) {
+            alert('Mohon isi Nama Lengkap dan Kelas terlebih dahulu!');
+            return;
+        }
+
+        let correctCount = 0;
+        const totalQuestions = Object.keys(answerKey).length;
+
+        for (let i = 1; i <= totalQuestions; i++) {
+            const key = 'q' + i;
+            const correctAnswers = answerKey[key];
+            const selectedOptions = Array.from(document.querySelectorAll(`input[name="${key}"]:checked`)).map(el => el.value);
+            const feedbackEl = document.getElementById('fb' + i);
+
+            // Cek kesesuaian jawaban (presisi array)
+            const isCorrect = correctAnswers.length === selectedOptions.length && 
+                              correctAnswers.every(val => selectedOptions.includes(val));
+
+            feedbackEl.style.display = 'block';
+
+            if (isCorrect) {
+                correctCount++;
+                feedbackEl.className = 'feedback correct';
+                feedbackEl.innerHTML = `<strong>Jawaban Anda Benar!</strong>`;
+            } else {
+                feedbackEl.className = 'feedback wrong';
+                feedbackEl.innerHTML = `<strong>Jawaban Kurang Tepat.</strong> Kunci Jawaban: <b>${correctAnswers.join(', ')}</b>`;
+            }
+        }
+
+        const score = Math.round((correctCount / totalQuestions) * 100);
+        
+        document.getElementById('studentIdentity').innerText = `Nama: ${nama} | Kelas: ${kelas}`;
+        document.getElementById('scoreValue').innerText = `Skor Akhir: ${score} / 100`;
+        document.getElementById('resultBox').style.display = 'block';
+
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+</script>
+
+</body>
+</html>
